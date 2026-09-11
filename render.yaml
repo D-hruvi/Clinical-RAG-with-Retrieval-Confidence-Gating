@@ -1,0 +1,49 @@
+# Render Blueprint — deploys both services in one go.
+# In the Render dashboard: New -> Blueprint -> connect this repo.
+# You will be prompted once for OPENAI_API_KEY (marked sync:false below).
+#
+# The API service builds the vector index during its build step (native
+# Python runtime, not Docker) so no persistent disk or Qdrant Cloud account
+# is needed: the index is baked into that build's filesystem each deploy.
+# Commit your guideline PDFs to data/guidelines/ before deploying — a build
+# with no PDFs and no --pubmed-query will fail on purpose (see build_index.py).
+
+services:
+  - type: web
+    name: medrag-api
+    runtime: python
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    buildCommand: >
+      pip install -r requirements-api.txt &&
+      python -m src.indexing.build_index --pubmed-query "clinical practice guideline"
+    startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false   # you'll be prompted for this in the Render dashboard
+      - key: LLM_MODEL
+        value: gpt-4o-mini
+      - key: EMBED_MODEL
+        value: text-embedding-3-small
+      - key: MIN_RETRIEVAL_SCORE
+        value: "0.72"
+      - key: NCBI_EMAIL
+        value: your_email@example.com   # NCBI asks that E-utilities callers identify themselves
+
+  - type: web
+    name: medrag-ui
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements-ui.txt
+    startCommand: streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=$PORT
+    envVars:
+      # NOTE: this assumes the api service above is named "medrag-api" and that
+      # name is available in your Render account (Render service URLs are
+      # https://<service-name>.onrender.com). If Render assigns a different
+      # name during setup because "medrag-api" is taken, update this value in
+      # the Render dashboard after both services are created — the app reads
+      # it at request time via `API_URL`, so no redeploy is needed.
+      - key: API_URL
+        value: https://medrag-api.onrender.com

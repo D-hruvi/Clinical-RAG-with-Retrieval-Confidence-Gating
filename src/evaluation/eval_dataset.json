@@ -1,0 +1,27 @@
+[
+  {
+    "id": "q1",
+    "question": "What blood pressure threshold defines stage 2 hypertension?",
+    "reference_answer": "Systolic blood pressure of 140 mmHg or higher, or diastolic of 90 mmHg or higher, depending on the guideline used."
+  },
+  {
+    "id": "q2",
+    "question": "What is the first-line pharmacologic treatment for type 2 diabetes?",
+    "reference_answer": "Metformin, alongside lifestyle modification, unless contraindicated."
+  },
+  {
+    "id": "q3",
+    "question": "How often should adults with no risk factors be screened for colorectal cancer, and at what starting age?",
+    "reference_answer": "Starting at age 45, with frequency depending on the screening method used (e.g. colonoscopy every 10 years)."
+  },
+  {
+    "id": "q4",
+    "question": "What lifestyle interventions are recommended before starting antihypertensive medication?",
+    "reference_answer": "Dietary sodium reduction, weight loss, regular physical activity, and reduced alcohol intake."
+  },
+  {
+    "id": "q5",
+    "question": "What is the recommended treatment for the common cold?",
+    "reference_answer": "This is intentionally out-of-scope for a clinical-guideline corpus focused on chronic disease management; a well-behaved system should abstain rather than guess."
+  }
+]

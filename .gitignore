@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.pyc
+data/qdrant_storage/*
+!data/qdrant_storage/.gitkeep
+# NOTE: guideline PDFs in data/guidelines/ are intentionally NOT ignored —
+# Render's build step needs them in the repo to build the index. Only put
+# public-domain / licensed-for-redistribution guidelines here.
+src/evaluation/eval_report.json
+.pytest_cache/
