@@ -1,10 +1,10 @@
-# MedRAG — Clinical Guideline RAG with LlamaIndex
+# MedRAG: Clinical Guideline RAG with LlamaIndex
 
 A retrieval-augmented QA system over clinical guidelines (PDFs + PubMed
 abstracts), built with LlamaIndex + Qdrant + OpenAI, served via FastAPI and
 Streamlit, and containerized with Docker.
 
-## What makes this different from the tutorial version
+## What makes this different
 
 Most "RAG with LlamaIndex" projects stop at "it answers questions." This one
 is built around a specific, harder claim: **the system should know when it
