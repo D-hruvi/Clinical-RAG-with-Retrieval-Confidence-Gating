@@ -7,7 +7,6 @@
 # is needed: the index is baked into that build's filesystem each deploy.
 # Commit your guideline PDFs to data/guidelines/ before deploying — a build
 # with no PDFs and no --pubmed-query will fail on purpose (see build_index.py).
-
 services:
   - type: web
     name: medrag-api
@@ -20,6 +19,8 @@ services:
       python -m src.indexing.build_index --pubmed-query "clinical practice guideline"
     startCommand: uvicorn src.api.main:app --host 0.0.0.0 --port $PORT
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.11"
       - key: OPENAI_API_KEY
         sync: false   # you'll be prompted for this in the Render dashboard
       - key: LLM_MODEL
@@ -29,8 +30,7 @@ services:
       - key: MIN_RETRIEVAL_SCORE
         value: "0.72"
       - key: NCBI_EMAIL
-        value: your_email@example.com   # NCBI asks that E-utilities callers identify themselves
-
+        value: "dhruvi.rohilla@gmail.com"
   - type: web
     name: medrag-ui
     runtime: python
@@ -39,6 +39,8 @@ services:
     buildCommand: pip install -r requirements-ui.txt
     startCommand: streamlit run streamlit_app.py --server.address=0.0.0.0 --server.port=$PORT
     envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.11"
       # NOTE: this assumes the api service above is named "medrag-api" and that
       # name is available in your Render account (Render service URLs are
       # https://<service-name>.onrender.com). If Render assigns a different
